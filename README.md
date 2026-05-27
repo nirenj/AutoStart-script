@@ -6,26 +6,29 @@ Steps to trigger a script each time your CentOS/RHEL server is booted up.
 1. First we need to create the script. I created mine by the name ```setup-script.sh``` in ```/var/tmp/``` directory.
 ```shell
 #!/bin/bash
-echo "The time the script run was --> `date`" > /var/tmp/setup-script.out
-echo 'Extracting private ip' >> /var/tmp/setup-script.out
+
+exec > /var/tmp/setup-script.out 2>&1
+
+echo "The time the script run was --> `date`"
+echo 'Extracting private ip'
 PRIVATE_IP=$(curl http://192.168.0.1/latest/meta-data/local-ipv4)
-echo $PRIVATE_IP >> /var/tmp/setup-script.out
+echo $PRIVATE_IP
 
-echo 'Applying iptable rules' >> /var/tmp/setup-script.out
-iptables -A FORWARD -d $PRIVATE_IP -p tcp --dport 443 -j ACCEPT >> /var/tmp/setup-script.out
-iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT --to-destination $PRIVATE_IP:8443 >> /var/tmp/setup-script.out
-iptables -t nat -A POSTROUTING -j MASQUERADE >> /var/tmp/setup-script.out
-echo 'Appled following iptable rules' >> /var/tmp/setup-script.out
-iptables -S >> /var/tmp/setup-script.out
-echo 'Appled NAT following iptable rules' >> /var/tmp/setup-script.out
-iptables -S -t nat >> /var/tmp/setup-script.out
+echo 'Applying iptable rules'
+iptables -A FORWARD -d $PRIVATE_IP -p tcp --dport 443 -j ACCEPT
+iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT --to-destination $PRIVATE_IP:8443
+iptables -t nat -A POSTROUTING -j MASQUERADE
+echo 'Appled following iptable rules'
+iptables -S
+echo 'Appled NAT following iptable rules'
+iptables -S -t nat
 
-echo 'Mounting ram disk' >> /var/tmp/setup-script.out
-umount /tmp/ram >> /var/tmp/setup-script.out
-mount -t tmpfs -o size=512m tmpfs /tmp/ram >> /var/tmp/setup-script.out
-service zookeeper start >> /var/tmp/setup-script.out
-service ultraesb start >> /var/tmp/setup-script.out
-service appserver start >> /var/tmp/setup-script.out
+echo 'Mounting ram disk'
+umount /tmp/ram
+mount -t tmpfs -o size=512m tmpfs /tmp/ram
+service zookeeper start
+service ultraesb start
+service appserver start
 ```
 
 2. Then we need to give executable permissions for the script file.
