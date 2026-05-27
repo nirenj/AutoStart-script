@@ -23,7 +23,7 @@ else
 fi
 echo 'Appled following iptable rules' >> /var/tmp/setup-script.out
 iptables -S >> /var/tmp/setup-script.out
-echo 'Appled NAT following iptable rules' >> /var/tmp/setup-script.out
+echo 'Applied NAT following iptable rules' >> /var/tmp/setup-script.out
 iptables -S -t nat >> /var/tmp/setup-script.out
 
 echo 'Mounting ram disk' >> /var/tmp/setup-script.out
