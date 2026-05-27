@@ -29,9 +29,9 @@ iptables -S -t nat >> /var/tmp/setup-script.out
 echo 'Mounting ram disk' >> /var/tmp/setup-script.out
 umount /tmp/ram >> /var/tmp/setup-script.out
 mount -t tmpfs -o size=512m tmpfs /tmp/ram >> /var/tmp/setup-script.out
-service zookeeper start >> /var/tmp/setup-script.out
-service ultraesb start >> /var/tmp/setup-script.out
-service appserver start >> /var/tmp/setup-script.out
+systemctl start zookeeper >> /var/tmp/setup-script.out
+systemctl start ultraesb >> /var/tmp/setup-script.out
+systemctl start appserver >> /var/tmp/setup-script.out
 ```
 
 2. Then we need to give executable permissions for the script file.
