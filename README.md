@@ -37,7 +37,7 @@ systemctl start appserver >> /var/tmp/setup-script.out
 2. Then we need to give executable permissions for the script file.
 
 ```shell
-chmod +x /var/tmp/setup-script.sh
+chmod +x /usr/local/bin/setup-script.sh
 ```
 
 ## CREATING NEW SYSTEMD SERVICE UNIT
@@ -51,7 +51,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/var/tmp/setup-script.sh
+ExecStart=/usr/local/bin/setup-script.sh
 TimeoutStartSec=0
 
 [Install]
