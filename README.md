@@ -3,7 +3,7 @@ Steps to trigger a script each time your CentOS/RHEL server is booted up.
 
 ## CREATING THE SCRIPT
 
-1. First we need to create the script. I created mine by the name ```setup-script.sh``` in ```/var/tmp/``` directory.
+1. First we need to create the script. I created mine by the name ```setup-script.sh``` in ```/usr/local/bin/``` directory.
 ```shell
 #!/bin/bash
 echo "The time the script run was --> `date`" > /var/tmp/setup-script.out
@@ -30,7 +30,7 @@ service appserver start >> /var/tmp/setup-script.out
 
 2. Then we need to give executable permissions for the script file.
 ```shell
-chmod +x /var/tmp/setup-script.sh
+chmod +x /usr/local/bin/setup-script.sh
 ```
 
 ## CREATING NEW SYSTEMD SERVICE UNIT
@@ -43,7 +43,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/var/tmp/setup-script.sh
+ExecStart=/usr/local/bin/setup-script.sh
 TimeoutStartSec=0
 
 [Install]
